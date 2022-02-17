@@ -21,7 +21,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edit_crime_title"
-        style="@style/Widget.Material3.TextInputLayout.FilledBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -44,7 +44,7 @@
             android:hint="@string/crime_title_hint"
             android:inputType="text|textCapCharacters"
             android:minHeight="48dp"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColorHint="#546E7A"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -1,5 +1,6 @@
 package com.manikandan.capturecrime.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +14,22 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.manikandan.capturecrime.Adapters.CrimeAdapter;
+import com.manikandan.capturecrime.CrimeActivity;
 import com.manikandan.capturecrime.CrimeLab;
 import com.manikandan.capturecrime.R;
+import com.manikandan.capturecrime.interfaces.RecyclerViewInterface;
 import com.manikandan.capturecrime.models.Crime;
 
 import java.util.List;
 
-public class CrimeListFragment extends Fragment {
+public class CrimeListFragment extends Fragment implements RecyclerViewInterface {
     private RecyclerView recyclerView = null;
     private RecyclerView.LayoutManager layoutManager = null;
     private List<Crime> crimeList;
+    private CrimeAdapter crimeAdapter = null;
+    private static final String EXTRA_CRIME_ID = "com.manikandan.capturecrime.crimeID";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,15 +43,36 @@ public class CrimeListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.crime_recycle_view);
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
-        CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
-        crimeList = crimeLab.getCrimes();
-
-        CrimeAdapter crimeAdapter = new CrimeAdapter(crimeList, getActivity());
-        recyclerView.setAdapter(crimeAdapter);
+        updateUI();
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
 
         return view;
+    }
+
+    private void updateUI() {
+        CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
+        crimeList = crimeLab.getCrimes();
+        if (crimeAdapter == null) {
+            crimeAdapter = new CrimeAdapter(crimeList, getActivity(), this);
+            recyclerView.setAdapter(crimeAdapter);
+        } else {
+            crimeAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Snackbar.make(recyclerView, crimeList.get(position).getmTitle(), Snackbar.LENGTH_LONG)
+                .show();
+        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        intent.putExtra(EXTRA_CRIME_ID, crimeList.get(position).getmID());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
     }
 }

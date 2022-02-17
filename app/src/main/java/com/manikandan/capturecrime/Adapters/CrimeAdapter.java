@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.manikandan.capturecrime.R;
+import com.manikandan.capturecrime.interfaces.RecyclerViewInterface;
 import com.manikandan.capturecrime.models.Crime;
 import com.manikandan.capturecrime.viewholders.CrimeHolder;
 
@@ -18,10 +19,12 @@ import java.util.List;
 public class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
     List<Crime> mCrimeList;
     Context context;
+    RecyclerViewInterface recyclerViewInterface;
 
-    public CrimeAdapter(List<Crime> mCrimeList, Context context) {
+    public CrimeAdapter(List<Crime> mCrimeList, Context context, RecyclerViewInterface recyclerViewInterface) {
         this.mCrimeList = mCrimeList;
         this.context = context;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
 
     @NonNull
@@ -38,6 +41,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
         holder.getmTitleText().setText(mCrime.getmTitle());
         holder.getmDateText().setText(mCrime.getmDate().toString());
         holder.getMcrimeSolvedImg().setVisibility((mCrime.isMsolved()) ? View.VISIBLE : View.GONE);
+        holder.getParentView().setOnClickListener(v -> recyclerViewInterface.onItemClick(holder.getAdapterPosition()));
     }
 
     @Override

@@ -15,21 +15,26 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.manikandan.capturecrime.CrimeLab;
 import com.manikandan.capturecrime.R;
 import com.manikandan.capturecrime.models.Crime;
+
+import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
     private Crime crime;
     private TextView mTitleLabel;
-    private TextInputEditText  mTitleField;
+    private TextInputEditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
+
+    private static final String ARG_UUID = "crime_id";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        crime = new Crime();
+        UUID uuid = (UUID) getArguments().getSerializable(ARG_UUID);
+        crime = CrimeLab.getCrimeLab(getActivity()).getCrimeDetails(uuid);
     }
 
     @Nullable
@@ -42,7 +47,9 @@ public class CrimeFragment extends Fragment {
         mDateButton.setEnabled(false);
 
         mTitleLabel = v.findViewById(R.id.txt_crime_title_label);
+        mTitleLabel.setText(crime.getmTitle());
         mTitleField = v.findViewById(R.id.edit_crime_input);
+        mTitleField.setText(crime.getmTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -62,8 +69,17 @@ public class CrimeFragment extends Fragment {
         });
 
         mSolvedCheckBox = v.findViewById(R.id.chx_crime_solved);
+        mSolvedCheckBox.setChecked(crime.isMsolved());
         mSolvedCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> crime.setMsolved(isChecked));
 
         return v;
+    }
+
+    public static CrimeFragment newInstance(UUID uuid) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_UUID, uuid);
+        CrimeFragment crimeFragment = new CrimeFragment();
+        crimeFragment.setArguments(args);
+        return crimeFragment;
     }
 }
