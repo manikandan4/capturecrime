@@ -94,8 +94,8 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     public void onItemClick(int position) {
         Snackbar.make(recyclerView, crimeList.get(position).getmTitle(), Snackbar.LENGTH_LONG)
                 .show();
-        Intent intent = new Intent(getActivity(), CrimeViewPagerActivity.class);
-        //Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        //Intent intent = new Intent(getActivity(), CrimeViewPagerActivity.class);
+        Intent intent = new Intent(getActivity(), CrimeActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeList.get(position).getmID());
         startActivity(intent);
     }

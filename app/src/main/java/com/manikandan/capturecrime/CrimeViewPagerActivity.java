@@ -36,7 +36,8 @@ public class CrimeViewPagerActivity extends FragmentActivity {
 
         for (int i = 0; i < crimeList.size(); i++) {
             if (crimeList.get(i).getmID().equals(uuid)) {
-                viewPager.setCurrentItem(i);
+                int index = i;
+                viewPager.postDelayed(()->  viewPager.setCurrentItem(index, true),200);
                 break;
             }
         }
@@ -102,6 +103,7 @@ public class CrimeViewPagerActivity extends FragmentActivity {
         super.onResume();
         updateUI();
     }
+
 
     /*@Override
     public void onBackPressed() {
