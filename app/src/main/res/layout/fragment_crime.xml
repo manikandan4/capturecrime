@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EDE7F6">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/txt_crime_title_label"
@@ -32,7 +31,7 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:text="@string/crime_title_hint"
-        app:boxBackgroundColor="#EDE7F6"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_crime_title_label">
@@ -45,7 +44,6 @@
             android:inputType="text|textCapCharacters"
             android:minHeight="48dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColorHint="#546E7A"
             tools:ignore="TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 

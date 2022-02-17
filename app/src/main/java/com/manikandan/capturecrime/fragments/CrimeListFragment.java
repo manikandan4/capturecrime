@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.manikandan.capturecrime.Adapters.CrimeAdapter;
 import com.manikandan.capturecrime.CrimeActivity;
 import com.manikandan.capturecrime.CrimeLab;
+import com.manikandan.capturecrime.CrimeViewPagerActivity;
 import com.manikandan.capturecrime.R;
 import com.manikandan.capturecrime.interfaces.RecyclerViewInterface;
 import com.manikandan.capturecrime.models.Crime;
@@ -46,7 +48,7 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         updateUI();
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
-
+        handleItemSwipe();
         return view;
     }
 
@@ -61,11 +63,39 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         }
     }
 
+    private void handleItemSwipe() {
+        final Crime[] deletedCrime = {new Crime()};
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                if (direction == ItemTouchHelper.LEFT) {
+                    deletedCrime[0] = crimeList.get(position);
+                    crimeList.remove(position);
+                    crimeAdapter.notifyItemRemoved(position);
+                    Snackbar.make(recyclerView, deletedCrime[0].getmTitle() + " Deleted!", Snackbar.LENGTH_LONG)
+                            .setAction("Undo", v -> {
+                                crimeList.add(position, deletedCrime[0]);
+                                crimeAdapter.notifyItemInserted(position);
+                            }).show();
+                }
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
     @Override
     public void onItemClick(int position) {
         Snackbar.make(recyclerView, crimeList.get(position).getmTitle(), Snackbar.LENGTH_LONG)
                 .show();
-        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        Intent intent = new Intent(getActivity(), CrimeViewPagerActivity.class);
+        //Intent intent = new Intent(getActivity(), CrimeActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeList.get(position).getmID());
         startActivity(intent);
     }

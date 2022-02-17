@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CaptureCrime">
         <activity
+            android:name=".CrimeViewPagerActivity"
+            android:exported="false" />
+        <activity
             android:name=".CrimeListActivity"
             android:exported="true">
             <intent-filter>
@@ -18,9 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".CrimeActivity">
-        </activity>
+        <activity android:name=".CrimeActivity" />
     </application>
 
 </manifest>
