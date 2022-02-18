@@ -10,4 +10,9 @@ public class CrimeListActivity extends SingleFragmentActivity {
     protected Fragment createFragment() {
         return new CrimeListFragment();
     }
+
+    @Override
+    protected void updateToolbarTitle() {
+        toolbar.setTitle("Crime List");
+    }
 }

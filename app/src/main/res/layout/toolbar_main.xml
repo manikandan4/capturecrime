@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar_main"
+    style="@style/Widget.Material3.ActionBar.Solid"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:elevation="4dp"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="@style/Widget.Material3.Toolbar"
+    app:title="Criminal Intent"
+    app:titleMarginTop="16dp"
+    app:titleTextColor="@color/white">
+
+</androidx.appcompat.widget.Toolbar>
