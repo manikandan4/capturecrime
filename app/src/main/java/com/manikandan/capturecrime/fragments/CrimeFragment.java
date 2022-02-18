@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -39,7 +40,7 @@ public class CrimeFragment extends Fragment {
         } else {
             crime = new Crime();
         }
-
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
 
     }
 
@@ -88,4 +89,15 @@ public class CrimeFragment extends Fragment {
         crimeFragment.setArguments(args);
         return crimeFragment;
     }
+
+    private final OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true /* Enabled by default */) {
+        @Override
+        public void handleOnBackPressed() {
+            if (mTitleLabel.getText().toString().isEmpty()) {
+                CrimeLab.getCrimeLab(getActivity()).removeCrime(crime);
+            }
+            this.setEnabled(false);
+            requireActivity().getOnBackPressedDispatcher().onBackPressed();
+        }
+    };
 }
