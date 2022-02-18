@@ -1,6 +1,7 @@
 package com.manikandan.capturecrime;
 
-import androidx.core.content.ContextCompat;
+import android.view.View;
+
 import androidx.fragment.app.Fragment;
 
 import com.manikandan.capturecrime.fragments.CrimeFragment;
@@ -18,8 +19,6 @@ public class CrimeActivity extends SingleFragmentActivity {
 
     @Override
     protected void updateToolbarTitle() {
-        toolbar.setTitle("Crime Detail");
-        toolbar.setTitleTextAppearance(this,com.google.android.material.R.style.TextAppearance_Material3_TitleLarge);
-        toolbar.setTitleTextColor(ContextCompat.getColor(this,R.color.white));
+        toolbar.setVisibility(View.GONE);
     }
 }

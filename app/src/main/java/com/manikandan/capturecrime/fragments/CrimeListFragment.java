@@ -3,6 +3,9 @@ package com.manikandan.capturecrime.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,6 +39,7 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -104,5 +108,25 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.crime_menu,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.add_new_crime:
+                Crime crime = new Crime();
+                CrimeLab.getCrimeLab(getActivity()).addCrime(crime);
+                Intent intent = new Intent(getActivity(), CrimeActivity.class);
+                intent.putExtra(EXTRA_CRIME_ID, crime.getmID());
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
