@@ -14,15 +14,18 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.manikandan.capturecrime.CrimeLab;
 import com.manikandan.capturecrime.R;
 import com.manikandan.capturecrime.models.Crime;
 
+import java.util.Date;
 import java.util.UUID;
 
-public class CrimeFragment extends Fragment {
+public class CrimeFragment extends Fragment implements FragmentResultListener {
     private Crime crime;
     private TextView mTitleLabel;
     private TextInputEditText mTitleField;
@@ -30,6 +33,7 @@ public class CrimeFragment extends Fragment {
     private CheckBox mSolvedCheckBox;
 
     private static final String ARG_UUID = "crime_id";
+    private static final String DIALOG_DATE = "DialogDate";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,7 +55,12 @@ public class CrimeFragment extends Fragment {
 
         mDateButton = v.findViewById(R.id.btn_crime_date);
         mDateButton.setText(crime.getmDate().toString());
-        mDateButton.setEnabled(false);
+        mDateButton.setOnClickListener(view -> {
+            FragmentManager fm = this.getParentFragmentManager();
+            DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getmDate(), DIALOG_DATE);
+            fm.setFragmentResultListener(DIALOG_DATE, this, this);
+            dialog.show(fm, DIALOG_DATE);
+        });
 
         mTitleLabel = v.findViewById(R.id.txt_crime_title_label);
         mTitleLabel.setText(crime.getmTitle());
@@ -100,4 +109,13 @@ public class CrimeFragment extends Fragment {
             requireActivity().getOnBackPressedDispatcher().onBackPressed();
         }
     };
+
+    @Override
+    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+        if (requestKey.equals(DIALOG_DATE)) {
+            Date date = (Date) result.getSerializable(DatePickerFragment.RESULT_DATE_KEY);
+            crime.setmDate(date);
+            mDateButton.setText(date.toString());
+        }
+    }
 }
