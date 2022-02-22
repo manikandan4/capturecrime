@@ -10,7 +10,9 @@ import androidx.fragment.app.FragmentManager;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
     protected abstract Fragment createFragment();
+
     protected abstract void updateToolbarTitle();
+
     public Toolbar toolbar = null;
 
     @Override
@@ -20,6 +22,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar_main);
         updateToolbarTitle();
         setSupportActionBar(toolbar);
+        toolbar.setLogo(R.drawable.ic_key_svgrepo_com);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(R.id.fragment_container);

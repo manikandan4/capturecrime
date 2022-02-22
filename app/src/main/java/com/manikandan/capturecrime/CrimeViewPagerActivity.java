@@ -3,6 +3,8 @@ package com.manikandan.capturecrime;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -17,12 +19,13 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimeViewPagerActivity extends FragmentActivity {
+public class CrimeViewPagerActivity extends AppCompatActivity {
     private static final String EXTRA_CRIME_ID = "com.manikandan.capturecrime.crimeID";
     private List<Crime> crimeList;
     private ViewPager2 viewPager;
     private DotsIndicator dotsIndicator = null;
     private swipeStateAdapter swipeAdapter = null;
+    public Toolbar toolbar = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +35,17 @@ public class CrimeViewPagerActivity extends FragmentActivity {
 
         dotsIndicator = findViewById(R.id.dots_indicator);
         viewPager = findViewById(R.id.fragment_crime_viewPager);
+        toolbar = findViewById(R.id.toolbar_layout);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("Crime Details");
+        toolbar.setLogo(R.drawable.ic_key_svgrepo_com);
+
         updateUI();
 
         for (int i = 0; i < crimeList.size(); i++) {
             if (crimeList.get(i).getmID().equals(uuid)) {
                 int index = i;
-                viewPager.postDelayed(()->  viewPager.setCurrentItem(index, true),200);
+                viewPager.postDelayed(() -> viewPager.setCurrentItem(index, true), 200);
                 break;
             }
         }

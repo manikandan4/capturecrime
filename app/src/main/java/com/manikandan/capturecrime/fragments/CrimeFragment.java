@@ -54,7 +54,9 @@ public class CrimeFragment extends Fragment implements FragmentResultListener {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
         mDateButton = v.findViewById(R.id.btn_crime_date);
-        mDateButton.setText(crime.getmDate().toString());
+        int[] dateArr = DatePickerFragment.getDateFormatted(crime.getmDate());
+        dateArr[1] = dateArr[1] + 1;
+        mDateButton.setText(dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2]);
         mDateButton.setOnClickListener(view -> {
             FragmentManager fm = this.getParentFragmentManager();
             DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getmDate(), DIALOG_DATE);
@@ -115,7 +117,9 @@ public class CrimeFragment extends Fragment implements FragmentResultListener {
         if (requestKey.equals(DIALOG_DATE)) {
             Date date = (Date) result.getSerializable(DatePickerFragment.RESULT_DATE_KEY);
             crime.setmDate(date);
-            mDateButton.setText(date.toString());
+            int[] dateArr = DatePickerFragment.getDateFormatted(crime.getmDate());
+            dateArr[1] = dateArr[1] + 1;
+            mDateButton.setText(dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2]);
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.manikandan.capturecrime;
 
-import android.view.View;
-
 import androidx.fragment.app.Fragment;
 
 import com.manikandan.capturecrime.fragments.CrimeFragment;
@@ -19,6 +17,6 @@ public class CrimeActivity extends SingleFragmentActivity {
 
     @Override
     protected void updateToolbarTitle() {
-        toolbar.setVisibility(View.GONE);
+        toolbar.setTitle("New Crime");
     }
 }

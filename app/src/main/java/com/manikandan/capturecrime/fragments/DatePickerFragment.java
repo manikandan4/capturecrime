@@ -32,13 +32,9 @@ public class DatePickerFragment extends DialogFragment implements DialogInterfac
         datePicker = dateView.findViewById(R.id.date_picker);
 
         Date date = (Date) getArguments().getSerializable(ARG_DATE);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int[] dateArr = getDateFormatted(date);
 
-        datePicker.init(year, month, day, this);
+        datePicker.init(dateArr[2], dateArr[1], dateArr[0], this);
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle("Date of Crime : ")
@@ -76,5 +72,15 @@ public class DatePickerFragment extends DialogFragment implements DialogInterfac
     @Override
     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
+    }
+
+    public static int[] getDateFormatted(Date date) {
+        int[] dates = new int[3];
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        dates[2] = calendar.get(Calendar.YEAR);
+        dates[1] = calendar.get(Calendar.MONTH);
+        dates[0] = calendar.get(Calendar.DAY_OF_MONTH);
+        return dates;
     }
 }

@@ -98,8 +98,8 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     public void onItemClick(int position) {
         Snackbar.make(recyclerView, crimeList.get(position).getmTitle(), Snackbar.LENGTH_LONG)
                 .show();
-        //Intent intent = new Intent(getActivity(), CrimeViewPagerActivity.class);
-        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        Intent intent = new Intent(getActivity(), CrimeViewPagerActivity.class);
+        //Intent intent = new Intent(getActivity(), CrimeActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeList.get(position).getmID());
         startActivity(intent);
     }
@@ -113,12 +113,12 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.crime_menu,menu);
+        inflater.inflate(R.menu.crime_menu, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.add_new_crime:
                 Crime crime = new Crime();
                 CrimeLab.getCrimeLab(getActivity()).addCrime(crime);
