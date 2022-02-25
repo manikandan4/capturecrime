@@ -8,9 +8,10 @@
     android:background="?attr/colorPrimary"
     android:elevation="4dp"
     android:minHeight="?attr/actionBarSize"
+    android:theme="@style/ThemeOverlay.Material3.Dark"
     app:title="Criminal Intent"
-    app:titleMarginTop="16dp"
     app:titleMarginStart="32dp"
+    app:titleMarginTop="16dp"
     app:titleTextColor="@color/white">
 
 </androidx.appcompat.widget.Toolbar>
