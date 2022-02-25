@@ -3,11 +3,18 @@ package com.manikandan.capturecrime.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.ShareActionProvider;
+import androidx.core.view.MenuCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,10 +39,12 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     private List<Crime> crimeList;
     private CrimeAdapter crimeAdapter = null;
     private static final String EXTRA_CRIME_ID = "com.manikandan.capturecrime.crimeID";
+    private ShareActionProvider shareActionProvider;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -94,8 +103,8 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     public void onItemClick(int position) {
         Snackbar.make(recyclerView, crimeList.get(position).getmTitle(), Snackbar.LENGTH_LONG)
                 .show();
-        //Intent intent = new Intent(getActivity(), CrimeViewPagerActivity.class);
-        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        Intent intent = new Intent(getActivity(), CrimeViewPagerActivity.class);
+        //Intent intent = new Intent(getActivity(), CrimeActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeList.get(position).getmID());
         startActivity(intent);
     }
@@ -104,5 +113,35 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     public void onResume() {
         super.onResume();
         updateUI();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.crime_menu, menu);
+        MenuItem item = menu.findItem(R.id.action_share);
+        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        setShareActionIntent("Want to view the crime list ?");
+    }
+
+    private void setShareActionIntent(String text) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        shareActionProvider.setShareIntent(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.add_new_crime:
+                Crime crime = new Crime();
+                CrimeLab.getCrimeLab(getActivity()).addCrime(crime);
+                Intent intent = new Intent(getActivity(), CrimeActivity.class);
+                intent.putExtra(EXTRA_CRIME_ID, crime.getmID());
+                startActivity(intent);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

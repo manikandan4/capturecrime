@@ -14,4 +14,9 @@ public class CrimeActivity extends SingleFragmentActivity {
         UUID uuid = (UUID) getIntent().getSerializableExtra(EXTRA_CRIME_ID);
         return CrimeFragment.newInstance(uuid);
     }
+
+    @Override
+    protected void updateToolbarTitle() {
+        toolbar.setTitle("New Crime");
+    }
 }

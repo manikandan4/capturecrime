@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class CrimeLab {
     private static CrimeLab crimeLab;
-    private  List<Crime> mCrimes;
+    private  static List<Crime> mCrimes;
 
     private CrimeLab(Context context) {
         mCrimes = new LinkedList<>();
@@ -18,7 +18,7 @@ public class CrimeLab {
     }
 
     private void initialLoadCrimes(List<Crime> mCrimes) {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 5; i++) {
             Crime crime = new Crime();
             crime.setmTitle("Crime #" + i);
             crime.setMsolved(i % 2 == 0);
@@ -31,6 +31,15 @@ public class CrimeLab {
             crimeLab = new CrimeLab(context);
         }
         return crimeLab;
+    }
+
+    public void addCrime(Crime crime){
+        mCrimes.add(crime);
+    }
+    public void removeCrime(Crime crime){
+        if(mCrimes.contains(crime)){
+            mCrimes.remove(crime);
+        }
     }
 
     public List<Crime> getCrimes() {

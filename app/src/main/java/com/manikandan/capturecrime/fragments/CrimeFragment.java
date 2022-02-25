@@ -10,18 +10,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.manikandan.capturecrime.CrimeLab;
 import com.manikandan.capturecrime.R;
 import com.manikandan.capturecrime.models.Crime;
 
+import java.util.Date;
 import java.util.UUID;
 
-public class CrimeFragment extends Fragment {
+public class CrimeFragment extends Fragment implements FragmentResultListener {
     private Crime crime;
     private TextView mTitleLabel;
     private TextInputEditText mTitleField;
@@ -29,6 +33,7 @@ public class CrimeFragment extends Fragment {
     private CheckBox mSolvedCheckBox;
 
     private static final String ARG_UUID = "crime_id";
+    private static final String DIALOG_DATE = "DialogDate";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +44,7 @@ public class CrimeFragment extends Fragment {
         } else {
             crime = new Crime();
         }
-
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
 
     }
 
@@ -49,8 +54,15 @@ public class CrimeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_crime, container, false);
 
         mDateButton = v.findViewById(R.id.btn_crime_date);
-        mDateButton.setText(crime.getmDate().toString());
-        mDateButton.setEnabled(false);
+        int[] dateArr = DatePickerFragment.getDateFormatted(crime.getmDate());
+        dateArr[1] = dateArr[1] + 1;
+        mDateButton.setText(dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2]);
+        mDateButton.setOnClickListener(view -> {
+            FragmentManager fm = this.getParentFragmentManager();
+            DatePickerFragment dialog = DatePickerFragment.newInstance(crime.getmDate(), DIALOG_DATE);
+            fm.setFragmentResultListener(DIALOG_DATE, this, this);
+            dialog.show(fm, DIALOG_DATE);
+        });
 
         mTitleLabel = v.findViewById(R.id.txt_crime_title_label);
         mTitleLabel.setText(crime.getmTitle());
@@ -87,5 +99,27 @@ public class CrimeFragment extends Fragment {
         CrimeFragment crimeFragment = new CrimeFragment();
         crimeFragment.setArguments(args);
         return crimeFragment;
+    }
+
+    private final OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true /* Enabled by default */) {
+        @Override
+        public void handleOnBackPressed() {
+            if (mTitleLabel.getText().toString().isEmpty()) {
+                CrimeLab.getCrimeLab(getActivity()).removeCrime(crime);
+            }
+            this.setEnabled(false);
+            requireActivity().getOnBackPressedDispatcher().onBackPressed();
+        }
+    };
+
+    @Override
+    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+        if (requestKey.equals(DIALOG_DATE)) {
+            Date date = (Date) result.getSerializable(DatePickerFragment.RESULT_DATE_KEY);
+            crime.setmDate(date);
+            int[] dateArr = DatePickerFragment.getDateFormatted(crime.getmDate());
+            dateArr[1] = dateArr[1] + 1;
+            mDateButton.setText(dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2]);
+        }
     }
 }

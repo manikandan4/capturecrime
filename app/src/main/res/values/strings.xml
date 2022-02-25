@@ -8,4 +8,6 @@
     <string name="crime_title">Crime Title</string>
     <string name="crime_date_item">Crime Date</string>
     <string name="solved_crimes">Solved Crimes</string>
+    <string name="new_crime">New Crime</string>
+    <string name="action_share">share</string>
 </resources>
