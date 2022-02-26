@@ -10,4 +10,6 @@
     <string name="solved_crimes">Solved Crimes</string>
     <string name="new_crime">New Crime</string>
     <string name="action_share">share</string>
+    <string name="crime_list_description">Contains list of crime details</string>
+    <string name="toolbar_background">Toolbar Background</string>
 </resources>

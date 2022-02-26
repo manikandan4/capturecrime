@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar_main"
+    style="@style/Widget.Material3.ActionBar.Solid"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="4dp"
-    android:minHeight="?attr/actionBarSize"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@android:color/transparent"
+    app:titleTextColor="@color/primaryDarkColor"
+    app:layout_collapseMode="pin"
     app:title="Criminal Intent"
     app:titleMarginStart="32dp"
-    app:titleMarginTop="16dp">
+    app:titleMarginTop="8dp">
 
-</androidx.appcompat.widget.Toolbar>
+</com.google.android.material.appbar.MaterialToolbar>
