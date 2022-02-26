@@ -9,11 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.ShareActionProvider;
-import androidx.core.view.MenuCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -121,7 +119,7 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         inflater.inflate(R.menu.crime_menu, menu);
         MenuItem item = menu.findItem(R.id.action_share);
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        setShareActionIntent("Want to view the crime list ?");
+        setShareActionIntent(getCrimeListDetails());
     }
 
     private void setShareActionIntent(String text) {
@@ -143,5 +141,14 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private String getCrimeListDetails() {
+        CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
+        StringBuilder crimeDetails = new StringBuilder("Crime List : ");
+        for (Crime crime : crimeLab.getCrimes()) {
+            crimeDetails.append("\n").append(crime.getmTitle());
+        }
+        return crimeDetails.toString();
     }
 }
