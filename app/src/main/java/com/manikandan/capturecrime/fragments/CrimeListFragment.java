@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.manikandan.capturecrime.Adapters.CrimeAdapter;
 import com.manikandan.capturecrime.CrimeActivity;
@@ -38,6 +39,7 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     private CrimeAdapter crimeAdapter = null;
     private static final String EXTRA_CRIME_ID = "com.manikandan.capturecrime.crimeID";
     private ShareActionProvider shareActionProvider;
+    private FloatingActionButton fab = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +52,11 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
         recyclerView = view.findViewById(R.id.crime_recycle_view);
+        fab = view.findViewById(R.id.add_new_crime_fab);
+        fab.setOnClickListener(v -> {
+            createNewCrime();
+        });
+
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         updateUI();
@@ -57,6 +64,14 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         snapHelper.attachToRecyclerView(recyclerView);
         handleItemSwipe();
         return view;
+    }
+
+    private void createNewCrime() {
+        Crime crime = new Crime();
+        CrimeLab.getCrimeLab(getActivity()).addCrime(crime);
+        Intent intent = new Intent(getActivity(), CrimeActivity.class);
+        intent.putExtra(EXTRA_CRIME_ID, crime.getmID());
+        startActivity(intent);
     }
 
     private void updateUI() {
@@ -133,11 +148,7 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_new_crime:
-                Crime crime = new Crime();
-                CrimeLab.getCrimeLab(getActivity()).addCrime(crime);
-                Intent intent = new Intent(getActivity(), CrimeActivity.class);
-                intent.putExtra(EXTRA_CRIME_ID, crime.getmID());
-                startActivity(intent);
+                createNewCrime();
             default:
                 return super.onOptionsItemSelected(item);
         }
