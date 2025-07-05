@@ -4,104 +4,93 @@
     android:id="@+id/single_crime_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="12dp"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="8dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="8dp"
+    app:cardElevation="4dp"
     app:strokeColor="@color/md_theme_primaryContainer"
-    app:strokeWidth="2dp"
+    app:strokeWidth="1dp"
     app:cardBackgroundColor="@color/md_theme_surfaceContainer"
     app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraLarge">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_view_parent"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Colored vertical accent bar -->
-        <View
-            android:id="@+id/accent_bar"
-            android:layout_width="6dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="12dp"
-            android:background="@color/md_theme_primary"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <!-- Avatar/Hero image -->
+        <!-- Crime image (top, smaller height for compactness) -->
         <ImageView
-            android:id="@+id/item_avatar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="12dp"
-            android:src="@drawable/ic_baseline_local_police_24"
-            android:background="@drawable/circle_bg"
-            android:scaleType="centerInside"
-            android:contentDescription="@string/crime_avatar"
-            app:layout_constraintStart_toEndOf="@id/accent_bar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:id="@+id/item_crime_image"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/photo_attachment"
+            android:background="@color/md_theme_surfaceVariant"
+            android:src="@drawable/ic_baseline_local_police_24" />
 
-        <!-- Title and date -->
+        <!-- Card content -->
         <LinearLayout
-            android:id="@+id/text_container"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/item_avatar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/chip_solved">
+            android:padding="14dp">
 
             <TextView
                 android:id="@+id/item_crime_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                 android:textColor="@color/md_theme_onSurface"
-                android:text="@string/crime_title"
                 android:maxLines="1"
-                android:ellipsize="end" />
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+                <TextView
+                    android:id="@+id/item_crime_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="@color/md_theme_onSurfaceVariant"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:drawablePadding="4dp" />
+                <TextView
+                    android:id="@+id/item_crime_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="@color/md_theme_onSurfaceVariant"
+                    android:drawableStart="@drawable/ic_location_on"
+                    android:drawablePadding="4dp"
+                    android:layout_marginStart="16dp" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/item_crime_date"
+                android:id="@+id/item_crime_solved"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/solved_chip_bg"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:textColor="@color/md_theme_onPrimaryContainer" />
+
+            <TextView
+                android:id="@+id/item_crime_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:textColor="@color/md_theme_onSurfaceVariant"
-                android:text="@string/crime_date_item"
-                android:maxLines="1"
-                android:ellipsize="end" />
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="6dp" />
         </LinearLayout>
-
-        <!-- Solved/Unsolved badge -->
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_solved"
-            style="@style/Widget.Material3.Chip.Assist.Elevated"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="@string/solved"
-            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-            app:chipIcon="@drawable/ic_baseline_done_24"
-            app:chipIconTint="@color/md_theme_onPrimaryContainer"
-            app:chipBackgroundColor="@color/md_theme_primaryContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <ImageView
-            android:id="@+id/img_crimeSolved"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_baseline_done_24"
-            android:contentDescription="@string/solved"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -100,27 +100,28 @@
                         android:inputType="textCapSentences" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Date & Time -->
+                <!-- Date (Picker Only) -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_date"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/date_and_time"
+                    android:hint="@string/date"
                     app:boxBackgroundColor="@color/md_theme_surface"
                     app:boxStrokeColor="@color/md_theme_primary"
                     app:hintTextColor="@color/md_theme_onSurfaceVariant"
-                    app:helperText="Tap to pick date and time"
+                    app:helperText="Tap to pick date"
                     android:layout_marginTop="16dp">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edit_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:focusable="true"
+                        android:focusable="false"
                         android:clickable="true"
                         android:inputType="none"
-                        android:focusableInTouchMode="true"
-                        />
+                        android:focusableInTouchMode="false"
+                        android:longClickable="false"
+                        android:cursorVisible="false" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Solved Switch -->

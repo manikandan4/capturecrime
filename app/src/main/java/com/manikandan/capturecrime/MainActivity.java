@@ -19,6 +19,14 @@ public class MainActivity extends AppCompatActivity {
         if (navHostFragment != null) {
             NavController navController = navHostFragment.getNavController();
             NavigationUI.setupActionBarWithNavController(this, navController);
+            // Hide toolbar on splash fragment
+            navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+                if (destination.getId() == R.id.splashFragment) {
+                    toolbar.setVisibility(android.view.View.GONE);
+                } else {
+                    toolbar.setVisibility(android.view.View.VISIBLE);
+                }
+            });
         }
     }
 

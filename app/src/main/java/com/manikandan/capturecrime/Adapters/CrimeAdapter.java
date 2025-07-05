@@ -1,6 +1,7 @@
 package com.manikandan.capturecrime.Adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.manikandan.capturecrime.R;
 import com.manikandan.capturecrime.data.CrimeEntity;
 import com.manikandan.capturecrime.fragments.DatePickerFragment;
@@ -42,10 +44,28 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
         holder.getmTitleText().setText(mCrime.title);
         int[] dateArr = DatePickerFragment.getDateFormatted(mCrime.date);
         dateArr[1] = dateArr[1] + 1;
-        // Use string resource for date formatting
         String dateStr = context.getString(R.string.crime_date_format, dateArr[0], dateArr[1], dateArr[2]);
         holder.getmDateText().setText(dateStr);
-        holder.getMcrimeSolvedImg().setVisibility((mCrime.solved) ? View.VISIBLE : View.GONE);
+        holder.getmLocationText().setText(mCrime.location);
+        holder.getmDescriptionText().setText(mCrime.description);
+        // Solved chip
+        if (mCrime.solved) {
+            holder.getmSolvedChip().setText(R.string.solved);
+            holder.getmSolvedChip().setBackgroundResource(R.drawable.solved_chip_bg);
+        } else {
+            holder.getmSolvedChip().setText(R.string.unsolved);
+            holder.getmSolvedChip().setBackgroundResource(R.drawable.unsolved_chip_bg);
+        }
+        // Load image (if available)
+        if (!TextUtils.isEmpty(mCrime.photoPath)) {
+            Glide.with(context)
+                .load(mCrime.photoPath)
+                .placeholder(R.drawable.ic_baseline_local_police_24)
+                .centerCrop()
+                .into(holder.getCrimeImage());
+        } else {
+            holder.getCrimeImage().setImageResource(R.drawable.ic_baseline_local_police_24);
+        }
         holder.getParentView().setOnClickListener(v -> recyclerViewInterface.onItemClick(holder.getBindingAdapterPosition()));
     }
 
