@@ -27,7 +27,7 @@
             android:scaleType="centerCrop"
             android:contentDescription="@string/photo_attachment"
             android:background="@color/md_theme_surfaceVariant"
-            android:src="@drawable/ic_baseline_local_police_24" />
+            android:src="@drawable/judge" />
 
         <!-- Card content -->
         <LinearLayout

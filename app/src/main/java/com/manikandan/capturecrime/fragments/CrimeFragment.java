@@ -216,7 +216,12 @@ public class CrimeFragment extends Fragment implements FragmentResultListener {
     }
 
     private void saveCrime() {
-        if (editTitle.getText() == null || TextUtils.isEmpty(editTitle.getText().toString())) {
+        // Always get the latest text from the fields, even if they never lost focus
+        String title = editTitle.getText() != null ? editTitle.getText().toString().trim() : "";
+        String location = editLocation.getText() != null ? editLocation.getText().toString().trim() : "";
+        String suspect = editSuspect.getText() != null ? editSuspect.getText().toString().trim() : "";
+        String description = editDescription.getText() != null ? editDescription.getText().toString().trim() : "";
+        if (TextUtils.isEmpty(title)) {
             editTitle.setError("Title is required");
             Snackbar.make(requireView(), "Please enter a title", Snackbar.LENGTH_SHORT).show();
             return;
@@ -226,11 +231,10 @@ public class CrimeFragment extends Fragment implements FragmentResultListener {
         progressBar.setVisibility(View.VISIBLE);
         btnSave.setEnabled(false);
         try {
-            crime.title = editTitle.getText() != null ? editTitle.getText().toString() : "";
-            // Do not overwrite date here, keep user-selected date
-            crime.location = editLocation.getText() != null ? editLocation.getText().toString() : "";
-            crime.suspect = editSuspect.getText() != null ? editSuspect.getText().toString() : "";
-            crime.description = editDescription.getText() != null ? editDescription.getText().toString() : "";
+            crime.title = title;
+            crime.location = location;
+            crime.suspect = suspect;
+            crime.description = description;
             // Make sure solved state is saved
             crime.solved = switchSolved.isChecked();
             viewModel.updateCrime(crime);
@@ -285,14 +289,6 @@ public class CrimeFragment extends Fragment implements FragmentResultListener {
                 }
             })
             .into(imagePhoto);
-    }
-
-    public static CrimeFragment newInstance(UUID uuid) {
-        Bundle args = new Bundle();
-        args.putString(ARG_UUID, uuid != null ? uuid.toString() : null);
-        CrimeFragment crimeFragment = new CrimeFragment();
-        crimeFragment.setArguments(args);
-        return crimeFragment;
     }
 
     private final OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
