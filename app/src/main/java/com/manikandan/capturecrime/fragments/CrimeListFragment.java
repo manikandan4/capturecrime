@@ -33,6 +33,7 @@ import com.manikandan.capturecrime.data.CrimeEntity;
 import com.manikandan.capturecrime.viewmodel.CrimeListViewModel;
 import com.manikandan.capturecrime.R;
 import com.manikandan.capturecrime.interfaces.RecyclerViewInterface;
+import com.manikandan.capturecrime.utils.VerticalSpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,9 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.crime_recycle_view);
         recyclerView.setContentDescription("Crime list"); // Accessibility
+        // Add vertical space between cards (16dp)
+        int verticalSpace = (int) (16 * getResources().getDisplayMetrics().density);
+        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(verticalSpace));
         FloatingActionButton fab = view.findViewById(R.id.add_new_crime_fab);
         fab.setContentDescription("Add new crime"); // Accessibility
         progressBar = view.findViewById(R.id.progress_bar); // Loading indicator
