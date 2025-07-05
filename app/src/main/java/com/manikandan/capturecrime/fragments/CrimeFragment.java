@@ -132,16 +132,25 @@ public class CrimeFragment extends Fragment implements FragmentResultListener {
         editDescription.setOnFocusChangeListener((v1, hasFocus) -> { if (!hasFocus && editDescription.getText() != null) crime.description = editDescription.getText().toString(); });
         dropdownCrimeType.setOnItemClickListener((parent, view1, position, id) -> crime.description = crimeTypes[position]);
         switchSolved.setOnCheckedChangeListener((buttonView, isChecked) -> crime.solved = isChecked);
+        btnAttachPhoto.setEnabled(false); // Disable attach photo until crime is loaded
         if (crimeId != null) {
             viewModel.getCrimeById(crimeId).observe(getViewLifecycleOwner(), crimeEntity -> {
                 if (crimeEntity == null) return;
                 crime = crimeEntity;
                 bindCrimeToUI();
+                btnAttachPhoto.setEnabled(true); // Enable after loaded from DB
             });
             btnDelete.setVisibility(View.VISIBLE);
         } else {
             crime = new com.manikandan.capturecrime.data.CrimeEntity(UUID.randomUUID(), "", new Date(), false, "", "", "", "");
-            bindCrimeToUI();
+            viewModel.insertCrime(crime); // Immediately insert new crime
+            // Observe for the new crime to be loaded from DB, then enable attach photo
+            viewModel.getCrimeById(crime.id).observe(getViewLifecycleOwner(), crimeEntity -> {
+                if (crimeEntity == null) return;
+                crime = crimeEntity;
+                bindCrimeToUI();
+                btnAttachPhoto.setEnabled(true); // Enable after loaded from DB
+            });
             btnDelete.setVisibility(View.GONE);
         }
         return v;

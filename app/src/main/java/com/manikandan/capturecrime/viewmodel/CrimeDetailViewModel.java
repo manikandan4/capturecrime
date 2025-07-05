@@ -31,4 +31,8 @@ public class CrimeDetailViewModel extends AndroidViewModel {
     public void deleteCrime(CrimeEntity crime) {
         repository.deleteCrime(crime);
     }
+
+    public void insertCrime(CrimeEntity crime) {
+        repository.insertCrime(crime);
+    }
 }
