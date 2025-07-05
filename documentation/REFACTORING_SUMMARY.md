@@ -33,19 +33,24 @@ The "Crime Tracker" app was originally built as a basic application to:
    - Migrated to single-activity architecture (`MainActivity`)
    - Implemented Navigation Component (`nav_graph.xml`)
    - All screens are now Fragments
+   - Legacy activities and base class have been removed
 2. **UI/UX Modernization**
    - Material 3 theme and components
    - Redesigned crime detail and list screens
    - Added MaterialToolbar as app bar
    - Enhanced list with swipe, undo, and share
+   - Modern splash screen using Lottie animation (assets/animatedlist.json)
+   - Accessibility improvements (content descriptions, a11y labels)
+   - Loading indicators and error feedback in all main screens
 3. **Data Layer**
    - Room DB, DAO, Entity, Repository
    - ViewModel and LiveData for all data flows
    - All DB ops on background thread
 4. **Code Quality**
-   - Removed deprecated/unused code
+   - Removed deprecated/unused code and legacy activities
    - Fixed all resource and theme errors
    - Cleaned up fragment code and navigation
+   - Added TODOs for test coverage and future enhancements
 
 ## What’s Left To Do
 - **Polish & Testing:**
@@ -57,8 +62,8 @@ The "Crime Tracker" app was originally built as a basic application to:
   - Add advanced features (search, filter, export, notifications)
   - Improve image handling (camera, cropping, permissions)
   - Add settings, theming, or authentication
-- **Cleanup:**
-  - Remove legacy activities and unused code/resources
+- **Testing:**
+  - Add unit tests for ViewModel and Repository logic (TODOs in code)
 
 ## Working Approach
 - Step-by-step, logical, and clear
@@ -71,10 +76,6 @@ The "Crime Tracker" app was originally built as a basic application to:
 app/
   src/main/java/com/manikandan/capturecrime/
     MainActivity.java                # Single-activity entry point
-    CrimeActivity.java               # Legacy, not used in new flow
-    CrimeListActivity.java           # Legacy, not used in new flow
-    CrimeViewPagerActivity.java      # Legacy, not used in new flow
-    SingleFragmentActivity.java      # Legacy base class
     data/
       AppDatabase.java               # Room database singleton
       CrimeDao.java                  # DAO for Room
@@ -85,6 +86,7 @@ app/
       CrimeListFragment.java         # Crime list UI, modernized
       CrimeFragment.java             # Crime detail UI, modernized
       DatePickerFragment.java        # Date picker dialog
+      SplashFragment.java            # Modern splash screen with Lottie
     viewmodel/
       CrimeListViewModel.java        # ViewModel for list
       CrimeDetailViewModel.java      # ViewModel for detail
@@ -101,13 +103,17 @@ app/
       fragment_crime_list.xml        # Modernized crime list UI
       list_item_crime.xml            # List item layout
     values/
-      strings.xml                    # All string resources
+      strings.xml                    # All string resources (now up to date)
       themes.xml                     # Material3 theme
       styles.xml                     # (empty, legacy)
     navigation/
       nav_graph.xml                  # Navigation graph
     menu/
       crime_menu.xml                 # Menu for crime list
+    drawable/
+      bg_gradient_modern.xml         # Modern gradient background
+    assets/
+      animatedlist.json              # Lottie animation for splash
 ```
 
 ## Key Libraries & Versions
@@ -118,6 +124,7 @@ app/
 - Lifecycle (ViewModel, LiveData): 2.8.0
 - Navigation Component: 2.8.0
 - Room: 2.6.1
+- Lottie: 6.4.0
 - DotsIndicator: 4.2 (legacy, not used in new flow)
 
 ## Key Patterns & Practices
@@ -130,7 +137,6 @@ app/
 - **ViewBinding**: Enabled in build.gradle for type-safe view access.
 
 ## Legacy/Deprecated Files
-- CrimeActivity.java, CrimeListActivity.java, CrimeViewPagerActivity.java, SingleFragmentActivity.java: No longer used in the new navigation flow, can be removed after full migration.
 - DotsIndicator: Not used in the new UI.
 - styles.xml: Now empty, all theming in themes.xml.
 
