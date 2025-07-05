@@ -10,20 +10,19 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.manikandan.capturecrime.R;
+import com.manikandan.capturecrime.data.CrimeEntity;
 import com.manikandan.capturecrime.fragments.DatePickerFragment;
 import com.manikandan.capturecrime.interfaces.RecyclerViewInterface;
-import com.manikandan.capturecrime.models.Crime;
 import com.manikandan.capturecrime.viewholders.CrimeHolder;
 
-import java.util.Calendar;
 import java.util.List;
 
 public class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
-    List<Crime> mCrimeList;
+    List<CrimeEntity> mCrimeList;
     Context context;
     RecyclerViewInterface recyclerViewInterface;
 
-    public CrimeAdapter(List<Crime> mCrimeList, Context context, RecyclerViewInterface recyclerViewInterface) {
+    public CrimeAdapter(List<CrimeEntity> mCrimeList, Context context, RecyclerViewInterface recyclerViewInterface) {
         this.mCrimeList = mCrimeList;
         this.context = context;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -39,13 +38,15 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CrimeHolder holder, int position) {
-        Crime mCrime = mCrimeList.get(position);
-        holder.getmTitleText().setText(mCrime.getmTitle());
-        int[] dateArr = DatePickerFragment.getDateFormatted(mCrime.getmDate());
+        CrimeEntity mCrime = mCrimeList.get(position);
+        holder.getmTitleText().setText(mCrime.title);
+        int[] dateArr = DatePickerFragment.getDateFormatted(mCrime.date);
         dateArr[1] = dateArr[1] + 1;
-        holder.getmDateText().setText(dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2]);
-        holder.getMcrimeSolvedImg().setVisibility((mCrime.isMsolved()) ? View.VISIBLE : View.GONE);
-        holder.getParentView().setOnClickListener(v -> recyclerViewInterface.onItemClick(holder.getAdapterPosition()));
+        // Use string resource for date formatting
+        String dateStr = context.getString(R.string.crime_date_format, dateArr[0], dateArr[1], dateArr[2]);
+        holder.getmDateText().setText(dateStr);
+        holder.getMcrimeSolvedImg().setVisibility((mCrime.solved) ? View.VISIBLE : View.GONE);
+        holder.getParentView().setOnClickListener(v -> recyclerViewInterface.onItemClick(holder.getBindingAdapterPosition()));
     }
 
     @Override

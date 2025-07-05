@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">CaptureCrime</string>
-    <string name="crime_title_label">TITLE</string>
-    <string name="crime_title_hint">Enter a title for the crime</string>
-    <string name="crime_details_label">Details</string>
-    <string name="crime_date">Date</string>
-    <string name="crime_solved_label">Solved</string>
+    <string name="app_name">Capture Crime</string>
+    <string name="toolbar_background">Toolbar Background</string>
+    <string name="crime_list_description">List of all crimes</string>
+    <string name="crime_title_label">Crime Title</string>
+    <string name="crime_title_hint">Enter crime title</string>
+    <string name="crime_date">Date of Crime</string>
+    <string name="crime_solved_label">Solved?</string>
+    <string name="new_crime">New Crime</string>
     <string name="crime_title">Crime Title</string>
     <string name="crime_date_item">Crime Date</string>
-    <string name="solved_crimes">Solved Crimes</string>
-    <string name="new_crime">New Crime</string>
-    <string name="action_share">share</string>
-    <string name="crime_list_description">Contains list of crime details</string>
-    <string name="toolbar_background">Toolbar Background</string>
+    <string name="solved_crimes">Solved</string>
+    <string name="action_share">Share</string>
+    <string name="crime_date_format">%1$d-%2$d-%3$d</string>
 </resources>

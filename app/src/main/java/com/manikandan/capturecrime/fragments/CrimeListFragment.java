@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.ShareActionProvider;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
@@ -24,22 +25,21 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.manikandan.capturecrime.Adapters.CrimeAdapter;
 import com.manikandan.capturecrime.CrimeActivity;
-import com.manikandan.capturecrime.CrimeLab;
 import com.manikandan.capturecrime.CrimeViewPagerActivity;
+import com.manikandan.capturecrime.data.CrimeEntity;
+import com.manikandan.capturecrime.viewmodel.CrimeListViewModel;
 import com.manikandan.capturecrime.R;
 import com.manikandan.capturecrime.interfaces.RecyclerViewInterface;
-import com.manikandan.capturecrime.models.Crime;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CrimeListFragment extends Fragment implements RecyclerViewInterface {
-    private RecyclerView recyclerView = null;
-    private RecyclerView.LayoutManager layoutManager = null;
-    private List<Crime> crimeList;
+    private List<CrimeEntity> crimeList = new ArrayList<>();
     private CrimeAdapter crimeAdapter = null;
     private static final String EXTRA_CRIME_ID = "com.manikandan.capturecrime.crimeID";
     private ShareActionProvider shareActionProvider;
-    private FloatingActionButton fab = null;
+    private CrimeListViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,60 +51,48 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_crime_list, container, false);
-        recyclerView = view.findViewById(R.id.crime_recycle_view);
-        fab = view.findViewById(R.id.add_new_crime_fab);
-        fab.setOnClickListener(v -> {
-            createNewCrime();
-        });
-
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        RecyclerView recyclerView = view.findViewById(R.id.crime_recycle_view);
+        FloatingActionButton fab = view.findViewById(R.id.add_new_crime_fab);
+        fab.setOnClickListener(v -> createNewCrime());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        updateUI();
+        crimeAdapter = new CrimeAdapter(crimeList, getActivity(), this);
+        recyclerView.setAdapter(crimeAdapter);
         SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
-        handleItemSwipe();
+        handleItemSwipe(recyclerView);
+        viewModel = new ViewModelProvider(this).get(CrimeListViewModel.class);
+        viewModel.getAllCrimes().observe(getViewLifecycleOwner(), crimes -> {
+            crimeList.clear();
+            if (crimes != null) crimeList.addAll(crimes);
+            crimeAdapter.notifyDataSetChanged();
+        });
         return view;
     }
 
     private void createNewCrime() {
-        Crime crime = new Crime();
-        CrimeLab.getCrimeLab(getActivity()).addCrime(crime);
+        CrimeEntity crime = new CrimeEntity(java.util.UUID.randomUUID(), "", new java.util.Date(), false, "", "", "", "");
+        viewModel.insert(crime);
         Intent intent = new Intent(getActivity(), CrimeActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crime.getmID());
+        intent.putExtra(EXTRA_CRIME_ID, crime.id);
         startActivity(intent);
     }
 
-    private void updateUI() {
-        CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
-        crimeList = crimeLab.getCrimes();
-        if (crimeAdapter == null) {
-            crimeAdapter = new CrimeAdapter(crimeList, getActivity(), this);
-            recyclerView.setAdapter(crimeAdapter);
-        } else {
-            crimeAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void handleItemSwipe() {
-        final Crime[] deletedCrime = {new Crime()};
+    private void handleItemSwipe(RecyclerView recyclerView) {
+        final CrimeEntity[] deletedCrime = {null};
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
-
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
+                int position = viewHolder.getBindingAdapterPosition();
                 if (direction == ItemTouchHelper.LEFT) {
                     deletedCrime[0] = crimeList.get(position);
-                    crimeList.remove(position);
-                    crimeAdapter.notifyItemRemoved(position);
-                    Snackbar.make(recyclerView, deletedCrime[0].getmTitle() + " Deleted!", Snackbar.LENGTH_LONG)
-                            .setAction("Undo", v -> {
-                                crimeList.add(position, deletedCrime[0]);
-                                crimeAdapter.notifyItemInserted(position);
-                            }).show();
+                    viewModel.delete(deletedCrime[0]);
+                    Snackbar.make(recyclerView, deletedCrime[0].title + " Deleted!", Snackbar.LENGTH_LONG)
+                            .setAction("Undo", v -> viewModel.insert(deletedCrime[0])).show();
                 }
             }
         };
@@ -114,18 +102,10 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
 
     @Override
     public void onItemClick(int position) {
-        Snackbar.make(recyclerView, crimeList.get(position).getmTitle(), Snackbar.LENGTH_LONG)
-                .show();
+        Snackbar.make(requireView(), crimeList.get(position).title, Snackbar.LENGTH_LONG).show();
         Intent intent = new Intent(getActivity(), CrimeViewPagerActivity.class);
-        //Intent intent = new Intent(getActivity(), CrimeActivity.class);
-        intent.putExtra(EXTRA_CRIME_ID, crimeList.get(position).getmID());
+        intent.putExtra(EXTRA_CRIME_ID, crimeList.get(position).id);
         startActivity(intent);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateUI();
     }
 
     @Override
@@ -146,19 +126,17 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.add_new_crime:
-                createNewCrime();
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.add_new_crime) {
+            createNewCrime();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private String getCrimeListDetails() {
-        CrimeLab crimeLab = CrimeLab.getCrimeLab(getActivity());
         StringBuilder crimeDetails = new StringBuilder("Crime List : ");
-        for (Crime crime : crimeLab.getCrimes()) {
-            crimeDetails.append("\n").append(crime.getmTitle());
+        for (CrimeEntity crime : crimeList) {
+            crimeDetails.append("\n").append(crime.title);
         }
         return crimeDetails.toString();
     }
