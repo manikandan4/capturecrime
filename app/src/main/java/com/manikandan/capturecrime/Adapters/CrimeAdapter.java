@@ -59,7 +59,7 @@ public class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
         // Load image (if available)
         if (!TextUtils.isEmpty(mCrime.photoPath)) {
             Glide.with(context)
-                .load(mCrime.photoPath)
+                .load(new java.io.File(mCrime.photoPath))
                 .placeholder(R.drawable.ic_baseline_local_police_24)
                 .centerCrop()
                 .into(holder.getCrimeImage());

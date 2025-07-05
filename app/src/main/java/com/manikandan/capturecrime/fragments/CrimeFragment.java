@@ -35,7 +35,9 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.manikandan.capturecrime.data.CrimeEntity;
 import com.manikandan.capturecrime.viewmodel.CrimeDetailViewModel;
 import com.manikandan.capturecrime.R;
+import com.manikandan.capturecrime.utils.ImageUtils;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -81,9 +83,14 @@ public class CrimeFragment extends Fragment implements FragmentResultListener {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     Uri selectedImage = result.getData().getData();
                     if (selectedImage != null) {
-                        crime.photoPath = selectedImage.toString(); // Store URI string
-                        viewModel.updateCrime(crime); // Immediately persist image change
-                        loadCrimeImage(crime.photoPath);
+                        try {
+                            String copiedPath = ImageUtils.copyImageToAppStorage(requireContext(), selectedImage);
+                            crime.photoPath = copiedPath; // Store file path
+                            viewModel.updateCrime(crime); // Immediately persist image change
+                            loadCrimeImage(crime.photoPath);
+                        } catch (IOException e) {
+                            Snackbar.make(requireView(), "Failed to save image", Snackbar.LENGTH_LONG).show();
+                        }
                     } else {
                         Snackbar.make(requireView(), "No image selected", Snackbar.LENGTH_SHORT).show();
                     }
@@ -258,9 +265,9 @@ public class CrimeFragment extends Fragment implements FragmentResultListener {
             progressBar.setVisibility(View.GONE);
             return;
         }
-        Uri uri = Uri.parse(uriString);
+        // Load from file path
         Glide.with(this)
-            .load(uri)
+            .load(new java.io.File(uriString))
             .placeholder(android.R.drawable.ic_menu_camera)
             .error(android.R.drawable.ic_menu_camera)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
