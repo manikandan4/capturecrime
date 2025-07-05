@@ -1,93 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintTop_toTopOf="parent">
+    android:fillViewport="true"
+    android:background="@drawable/bg_gradient_modern"
+    tools:context=".fragments.CrimeFragment">
 
-    <TextView
-        android:id="@+id/txt_crime_title_label"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/crime_title_label"
-        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
-        app:layout_constraintBottom_toTopOf="@+id/edit_crime_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_crime_title"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:text="@string/crime_title_hint"
-        app:boxBackgroundColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_crime_title_label">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_crime_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/crime_title_hint"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            tools:ignore="TextContrastCheck" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.divider.MaterialDivider
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_crime_date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:padding="0dp">
 
-    <Button
-        android:id="@+id/btn_crime_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:padding="8dp"
-        android:text="@string/crime_date"
-        app:icon="@drawable/ic_baseline_calendar_month_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/chx_crime_solved"
-        tools:ignore="TextContrastCheck,TextContrastCheck" />
+        <!-- Hero/Cover image -->
+        <ImageView
+            android:id="@+id/hero_image"
+            android:layout_width="0dp"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_key_svgrepo_com"
+            android:contentDescription="@string/crime_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <CheckBox
-        android:id="@+id/chx_crime_solved"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/crime_solved_label"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_crime_date"
-        app:layout_constraintEnd_toStartOf="@+id/btn_crime_date"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_crime_date"
-        tools:ignore="TextContrastCheck" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Circular avatar/profile image -->
+        <ImageView
+            android:id="@+id/avatar_image"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="-44dp"
+            android:src="@drawable/ic_baseline_local_police_24"
+            android:background="@drawable/circle_bg"
+            android:scaleType="centerInside"
+            android:elevation="8dp" android:contentDescription="@string/crime_avatar"
+            app:layout_constraintTop_toBottomOf="@id/hero_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Card for all fields -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_fields"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:strokeColor="@color/md_theme_primaryContainer"
+            app:strokeWidth="2dp"
+            app:cardBackgroundColor="@color/md_theme_surfaceContainer"
+            app:layout_constraintTop_toBottomOf="@id/avatar_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Case ID (read-only) -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_case_id"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/case_id"
+                    app:boxBackgroundColor="@color/md_theme_surface"
+                    app:boxStrokeColor="@color/md_theme_primary"
+                    app:hintTextColor="@color/md_theme_onSurfaceVariant"
+                    app:helperText="Case ID is auto-generated and read-only">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_case_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:enabled="false" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Title -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_title"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/title"
+                    app:boxBackgroundColor="@color/md_theme_surface"
+                    app:boxStrokeColor="@color/md_theme_primary"
+                    app:hintTextColor="@color/md_theme_onSurfaceVariant"
+                    app:helperText="Enter a short, descriptive title"
+                    android:layout_marginTop="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapSentences" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Date & Time -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_date"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/date_and_time"
+                    app:boxBackgroundColor="@color/md_theme_surface"
+                    app:boxStrokeColor="@color/md_theme_primary"
+                    app:hintTextColor="@color/md_theme_onSurfaceVariant"
+                    app:helperText="Tap to pick date and time"
+                    android:layout_marginTop="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:inputType="none"
+                        android:focusableInTouchMode="true"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Solved Switch -->
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/switch_solved"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/solved"
+                    android:layout_marginTop="16dp" />
+
+                <!-- Crime Type Dropdown -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_crime_type"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/crime_type"
+                    app:boxBackgroundColor="@color/md_theme_surface"
+                    app:boxStrokeColor="@color/md_theme_primary"
+                    app:hintTextColor="@color/md_theme_onSurfaceVariant"
+                    app:helperText="Select the type of crime"
+                    android:layout_marginTop="16dp">
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdown_crime_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:hint="@string/crime_type" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Location -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_location"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/location"
+                    app:boxBackgroundColor="@color/md_theme_surface"
+                    app:boxStrokeColor="@color/md_theme_primary"
+                    app:hintTextColor="@color/md_theme_onSurfaceVariant"
+                    app:helperText="Enter the location of the crime"
+                    android:layout_marginTop="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Suspect -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_suspect"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/suspect"
+                    app:boxBackgroundColor="@color/md_theme_surface"
+                    app:boxStrokeColor="@color/md_theme_primary"
+                    app:hintTextColor="@color/md_theme_onSurfaceVariant"
+                    app:helperText="Enter the suspect's name (if any)"
+                    android:layout_marginTop="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_suspect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Description -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_description"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/description"
+                    app:boxBackgroundColor="@color/md_theme_surface"
+                    app:boxStrokeColor="@color/md_theme_primary"
+                    app:hintTextColor="@color/md_theme_onSurfaceVariant"
+                    app:helperText="Describe the incident in detail"
+                    android:layout_marginTop="16dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:minLines="3"
+                        android:maxLines="6" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Photo Attachment as Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="24dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:strokeColor="@color/md_theme_primaryContainer"
+                    app:strokeWidth="1dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/image_photo"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginStart="16dp"
+                            android:src="@drawable/ic_baseline_local_police_24"
+                            android:contentDescription="@string/photo_attachment"
+                            android:scaleType="centerCrop" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_attach_photo"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/attach_photo"
+                            app:icon="@drawable/ic_baseline_add_24"
+                            app:iconGravity="textStart"
+                            android:layout_marginStart="16dp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Save/Update Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_save"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save"
+                    app:icon="@drawable/ic_baseline_done_24"
+                    app:iconGravity="textStart"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Delete Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_delete"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/delete"
+                    app:icon="@drawable/ic_baseline_delete_24"
+                    app:iconGravity="textStart"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone" />
+
+                <!-- Loading indicator -->
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

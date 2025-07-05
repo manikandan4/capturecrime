@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class CrimeListViewModel extends AndroidViewModel {
+    // TODO: Add unit tests for ViewModel logic and LiveData transformations
     private final CrimeRepository repository;
     private final LiveData<List<CrimeEntity>> allCrimes;
 
@@ -42,4 +43,3 @@ public class CrimeListViewModel extends AndroidViewModel {
         return repository.getCrimeById(id);
     }
 }
-

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.manikandan.capturecrime.fragments.SplashFragment"
+        android:label="Splash"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_crimeListFragment"
+            app:destination="@id/crimeListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/crimeListFragment"
+        android:name="com.manikandan.capturecrime.fragments.CrimeListFragment"
+        android:label="Crime List"
+        tools:layout="@layout/fragment_crime_list">
+        <action
+            android:id="@+id/action_crimeListFragment_to_crimeDetailFragment"
+            app:destination="@id/crimeDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/crimeDetailFragment"
+        android:name="com.manikandan.capturecrime.fragments.CrimeFragment"
+        android:label="Crime Detail"
+        tools:layout="@layout/fragment_crime">
+        <argument
+            android:name="crime_id"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+
+</navigation>

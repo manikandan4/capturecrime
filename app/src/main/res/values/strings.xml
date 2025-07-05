@@ -1,15 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Capture Crime</string>
+    <string name="app_name">Crime Tracker</string>
+    <string name="case_id">Case ID</string>
+    <string name="title">Title</string>
+    <string name="date_and_time">Date &amp; Time</string>
+    <string name="solved">Solved</string>
+    <string name="crime_type">Crime Type</string>
+    <string name="location">Location</string>
+    <string name="suspect">Suspect</string>
+    <string name="description">Description</string>
+    <string name="photo_attachment">Photo Attachment</string>
+    <string name="attach_photo">Attach Photo</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
     <string name="toolbar_background">Toolbar Background</string>
-    <string name="crime_list_description">List of all crimes</string>
-    <string name="crime_title_label">Crime Title</string>
-    <string name="crime_title_hint">Enter crime title</string>
-    <string name="crime_date">Date of Crime</string>
-    <string name="crime_solved_label">Solved?</string>
+    <string name="crime_list_description">Track and manage all reported crimes in your area.</string>
     <string name="new_crime">New Crime</string>
     <string name="crime_title">Crime Title</string>
     <string name="crime_date_item">Crime Date</string>
-    <string name="solved_crimes">Solved</string>
+    <string name="solved_crimes">Solved Crimes</string>
     <string name="action_share">Share</string>
     <string name="crime_date_format">%1$d-%2$d-%3$d</string>
+    <string name="crime_avatar">Crime avatar</string>
+    <string name="welcome_to_capture_crime">Welcome to Capture Crime</string>
+    <string name="tagline">Your partner in community safety.</string>
+    <string name="crime_list">Crime List</string>
+    <string name="add_new_crime">Add New Crime</string>
 </resources>

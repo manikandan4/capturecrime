@@ -10,6 +10,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class CrimeRepository {
+    // TODO: Add unit tests for repository data operations and threading
     private final CrimeDao crimeDao;
     private final Executor executor = Executors.newSingleThreadExecutor();
 
@@ -38,4 +39,3 @@ public class CrimeRepository {
         executor.execute(() -> crimeDao.deleteCrime(crime));
     }
 }
-

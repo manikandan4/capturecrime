@@ -12,6 +12,7 @@ import com.manikandan.capturecrime.data.CrimeRepository;
 import java.util.UUID;
 
 public class CrimeDetailViewModel extends AndroidViewModel {
+    // TODO: Add unit tests for ViewModel logic and LiveData transformations
     private final CrimeRepository repository;
 
     public CrimeDetailViewModel(@NonNull Application application) {
@@ -31,4 +32,3 @@ public class CrimeDetailViewModel extends AndroidViewModel {
         repository.deleteCrime(crime);
     }
 }
-

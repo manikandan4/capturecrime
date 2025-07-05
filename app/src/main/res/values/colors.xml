@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-
-    <color name="primaryColor">#0d47a1</color>
-    <color name="primaryLightColor">#5472d3</color>
-    <color name="primaryDarkColor">#002171</color>
-    <color name="secondaryColor">#c2185b</color>
-    <color name="secondaryLightColor">#fa5788</color>
-    <color name="secondaryDarkColor">#8c0032</color>
+    <!-- Material 3 Core Palette -->
+    <color name="md_theme_primary">#2563eb</color>
+    <color name="md_theme_onPrimary">#ffffff</color>
+    <color name="md_theme_primaryContainer">#dbeafe</color>
+    <color name="md_theme_onPrimaryContainer">#1e293b</color>
+    <color name="md_theme_secondary">#f59e42</color>
+    <color name="md_theme_onSecondary">#ffffff</color>
+    <color name="md_theme_secondaryContainer">#fff7ed</color>
+    <color name="md_theme_onSecondaryContainer">#78350f</color>
+    <color name="md_theme_tertiary">#a21caf</color>
+    <color name="md_theme_onTertiary">#ffffff</color>
+    <color name="md_theme_tertiaryContainer">#f3e8ff</color>
+    <color name="md_theme_onTertiaryContainer">#581c87</color>
+    <color name="md_theme_error">#ef4444</color>
+    <color name="md_theme_onError">#ffffff</color>
+    <color name="md_theme_background">#f8fafc</color>
+    <color name="md_theme_onBackground">#1e293b</color>
+    <color name="md_theme_surface">#ffffff</color>
+    <color name="md_theme_onSurface">#1e293b</color>
+    <color name="md_theme_surfaceVariant">#e2e8f0</color>
+    <color name="md_theme_onSurfaceVariant">#64748b</color>
+    <color name="md_theme_outline">#cbd5e1</color>
+    <color name="md_theme_surfaceContainer">#f1f5f9</color>
+    <!-- Legacy colors for compatibility -->
+    <color name="primaryColor">#2563eb</color>
+    <color name="primaryLightColor">#60a5fa</color>
+    <color name="primaryDarkColor">#1e40af</color>
+    <color name="secondaryColor">#f59e42</color>
+    <color name="secondaryLightColor">#ffedd5</color>
+    <color name="secondaryDarkColor">#78350f</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
 </resources>
