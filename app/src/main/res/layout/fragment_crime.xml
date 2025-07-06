@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@drawable/bg_gradient_modern"
+    android:background="?attr/actionModeBackground"
     tools:context=".fragments.CrimeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,25 +26,25 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Circular avatar/profile image -->
-        <ImageView
-            android:id="@+id/avatar_image"
-            android:layout_width="88dp"
-            android:layout_height="88dp"
-            android:layout_marginTop="-44dp"
-            android:src="@drawable/ic_baseline_local_police_24"
-            android:background="@drawable/circle_bg"
-            android:scaleType="centerInside"
-            android:elevation="8dp" android:contentDescription="@string/crime_avatar"
-            app:layout_constraintTop_toBottomOf="@id/hero_image"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+<!--        <ImageView-->
+<!--            android:id="@+id/avatar_image"-->
+<!--            android:layout_width="88dp"-->
+<!--            android:layout_height="88dp"-->
+<!--            android:layout_marginTop="-44dp"-->
+<!--            android:src="@drawable/ic_baseline_local_police_24"-->
+<!--            android:background="@drawable/circle_bg"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:elevation="8dp" android:contentDescription="@string/crime_avatar"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/hero_image"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
         <!-- Card for all fields -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_fields"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:cardCornerRadius="28dp"
@@ -52,7 +52,7 @@
             app:strokeColor="@color/md_theme_primaryContainer"
             app:strokeWidth="2dp"
             app:cardBackgroundColor="@color/md_theme_surfaceContainer"
-            app:layout_constraintTop_toBottomOf="@id/avatar_image"
+            app:layout_constraintTop_toBottomOf="@id/hero_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 

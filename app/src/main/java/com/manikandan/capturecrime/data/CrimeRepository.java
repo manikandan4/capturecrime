@@ -5,7 +5,8 @@ import android.text.TextUtils;
 
 import androidx.lifecycle.LiveData;
 
-import java.io.File;
+import com.manikandan.capturecrime.utils.ImageUtils;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executor;
@@ -39,12 +40,9 @@ public class CrimeRepository {
 
     public void deleteCrime(CrimeEntity crime) {
         executor.execute(() -> {
-            // Delete associated image file if it exists
+            // Delete associated image file if it exists using ImageUtils
             if (!TextUtils.isEmpty(crime.photoPath)) {
-                File imageFile = new File(crime.photoPath);
-                if (imageFile.exists()) {
-                    imageFile.delete();
-                }
+                ImageUtils.deleteImageFile(crime.photoPath);
             }
             crimeDao.deleteCrime(crime);
         });

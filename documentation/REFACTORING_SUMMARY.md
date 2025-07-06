@@ -52,93 +52,95 @@ The "Crime Tracker" app was originally built as a basic application to:
    - Cleaned up fragment code and navigation
    - Added TODOs for test coverage and future enhancements
 
-## What’s Left To Do
+## Recent Refactoring & Improvements (July 2025)
+- **Form Validation & Data Handling:**
+  - Fixed critical form stability issues where fields would lose data when interacting with other form elements.
+  - Implemented robust field validation with mandatory field checks (title and crime type required).
+  - Added comprehensive error handling with field-specific error messages and automatic focus management.
+  - Prevented auto-save of empty/invalid crimes - new crimes are only saved when user explicitly saves with valid data.
+  - Forms now work reliably regardless of field interaction order or focus state.
+  - Automatic navigation back to list after successful save for better UX flow.
+- **Image Handling:**
+  - Images selected from gallery are now copied to app-specific internal storage for persistence.
+  - Database stores the file path, not the content URI, ensuring images remain accessible after app restarts or redeploys.
+  - When a crime is deleted, its associated image file is also deleted to prevent orphaned files and wasted space.
+  - Image attachment is disabled for unsaved crimes to maintain data integrity.
+- **Code Quality & Stability:**
+  - Implemented robust text extraction from form fields using multiple fallback methods.
+  - Modified UI binding to be non-destructive, preserving user input when form refreshes occur.
+  - Removed problematic focus change listeners that were causing data loss.
+  - All form interactions (date picker, image selection, field navigation) no longer interfere with each other.
+  - Clean, production-ready code with comprehensive error handling and user feedback.
+- **Drawable Cleanup:**
+  - Unused drawables (ic_baseline_share_24.xml, ic_key_svgrepo_com.xml) identified for removal.
+  - All other drawables are actively used in layouts or code.
+- **UI/UX Polishing:**
+  - Splash screen redesigned with Material 3: logo in a rounded card, headline app name, and Lottie animation, all centered and spaced for modern aesthetics.
+  - Crime list and detail screens use Material 3 components, with improved spacing, padding, and card elevation.
+  - RecyclerView item decoration ensures consistent spacing between and above cards, preventing first card cut-off.
+  - Enhanced user feedback with loading indicators, progress bars, and clear success/error messages.
+- **Accessibility & Feedback:**
+  - All interactive elements have content descriptions.
+  - Snackbars and error messages provide user feedback for all major actions.
+  - Loading indicators are present in all main screens.
+  - Form validation provides clear, actionable error messages.
+
+## What’s Left To Do (as of July 2025)
 - **Polish & Testing:**
-  - Test all flows (add, edit, delete, image, navigation)
-  - Polish UI/UX (animations, accessibility, error states)
-  - Add more user feedback (snackbars, error messages, loading indicators)
+  - Test all flows (add, edit, delete, image, navigation, undo, share).
+  - Polish UI/UX (animations, accessibility, error states, edge cases).
+  - Add more user feedback (snackbars, error messages, loading indicators).
 - **Optional Enhancements:**
-  - Add Dependency Injection (e.g., Hilt)
-  - Add advanced features (search, filter, export, notifications)
-  - Improve image handling (camera, cropping, permissions)
-  - Add settings, theming, or authentication
+  - Add Dependency Injection (e.g., Hilt).
+  - Add advanced features (search, filter, export, notifications).
+  - Improve image handling (camera capture, cropping, permissions, cleanup of unused images).
+  - Add settings, theming, or authentication.
 - **Testing:**
-  - Add unit tests for ViewModel and Repository logic (TODOs in code)
+  - Add unit tests for ViewModel and Repository logic (TODOs in code).
+  - Add UI tests for main flows.
+- **Documentation:**
+  - Keep this summary and code comments up to date with all major changes.
 
 ## Working Approach
-- Step-by-step, logical, and clear
-- No assumptions; clarify as needed
-- Focus on quality and best practices
+- Step-by-step, logical, and clear.
+- No assumptions; clarify as needed.
+- Focus on quality, maintainability, and best practices.
+- All refactoring and new features are validated with error checks and user feedback.
 
 ## Project Structure (as of July 2025)
 
 ```
 app/
-  src/main/java/com/manikandan/capturecrime/
-    MainActivity.java                # Single-activity entry point
-    data/
-      AppDatabase.java               # Room database singleton
-      CrimeDao.java                  # DAO for Room
-      CrimeEntity.java               # Entity for Room
-      CrimeRepository.java           # Repository pattern
-      CrimeTypeConverters.java       # Type converters for Room
-    fragments/
-      CrimeListFragment.java         # Crime list UI, modernized
-      CrimeFragment.java             # Crime detail UI, modernized
-      DatePickerFragment.java        # Date picker dialog
-      SplashFragment.java            # Modern splash screen with Lottie
-    viewmodel/
-      CrimeListViewModel.java        # ViewModel for list
-      CrimeDetailViewModel.java      # ViewModel for detail
-    Adapters/
-      CrimeAdapter.java              # RecyclerView adapter for crimes
-    viewholders/
-      CrimeHolder.java               # ViewHolder for crime list
-    interfaces/
-      RecyclerViewInterface.java     # Click interface for RecyclerView
-  res/
-    layout/
-      activity_main.xml              # Main activity layout with MaterialToolbar
-      fragment_crime.xml             # Modernized crime detail UI
-      fragment_crime_list.xml        # Modernized crime list UI
-      list_item_crime.xml            # List item layout
-    values/
-      strings.xml                    # All string resources (now up to date)
-      themes.xml                     # Material3 theme
-      styles.xml                     # (empty, legacy)
-    navigation/
-      nav_graph.xml                  # Navigation graph
-    menu/
-      crime_menu.xml                 # Menu for crime list
-    drawable/
-      bg_gradient_modern.xml         # Modern gradient background
-    assets/
-      animatedlist.json              # Lottie animation for splash
+  ├── src/
+  │   ├── main/
+  │   │   ├── java/com/manikandan/capturecrime/
+  │   │   │   ├── Adapters/           # RecyclerView adapters
+  │   │   │   ├── data/               # Room DB, DAO, Entity, Repository, TypeConverters
+  │   │   │   ├── fragments/          # All UI screens as Fragments
+  │   │   │   ├── interfaces/         # RecyclerView and other interfaces
+  │   │   │   ├── utils/              # Utility classes (image, spacing, etc.)
+  │   │   │   ├── viewholders/        # ViewHolder classes for RecyclerView
+  │   │   │   └── viewmodel/          # ViewModel classes
+  │   │   ├── res/
+  │   │   │   ├── layout/             # XML layouts for fragments, list items, splash, etc.
+  │   │   │   ├── drawable/           # Vector and shape drawables, icons, backgrounds
+  │   │   │   ├── values/             # Colors, strings, styles, themes
+  │   │   │   └── ...
+  │   │   ├── assets/                 # Lottie animations, etc.
+  │   │   └── AndroidManifest.xml
+  │   └── test/                       # Unit tests (TODO)
+  ├── build.gradle
+  └── ...
+documentation/
+  └── REFACTORING_SUMMARY.md
 ```
 
-## Key Libraries & Versions
-- AndroidX AppCompat: 1.7.0
-- Material Components: 1.12.0 (Material 3)
-- ConstraintLayout: 2.2.0
-- RecyclerView: 1.4.0
-- Lifecycle (ViewModel, LiveData): 2.8.0
-- Navigation Component: 2.8.0
-- Room: 2.6.1
-- Lottie: 6.4.0
-- DotsIndicator: 4.2 (legacy, not used in new flow)
-
-## Key Patterns & Practices
-- **Single Activity + Fragments**: All navigation is fragment-based.
-- **Navigation Component**: Declarative navigation, argument passing.
-- **Room + Repository + ViewModel**: Clean, testable data layer.
-- **Material 3 UI**: Modern, accessible, and responsive.
-- **MenuProvider**: Modern menu handling in fragments.
-- **ActivityResultLauncher**: Modern image picking and permissions.
-- **ViewBinding**: Enabled in build.gradle for type-safe view access.
-
-## Legacy/Deprecated Files
-- DotsIndicator: Not used in the new UI.
-- styles.xml: Now empty, all theming in themes.xml.
+## Key Design Principles
+- **Material 3:** All UI follows Material 3 guidelines for color, typography, elevation, and spacing.
+- **Persistence:** All user data (including images) is stored in a way that survives app restarts and redeploys.
+- **Separation of Concerns:** Data, UI, and business logic are cleanly separated.
+- **Accessibility:** All screens and actions are accessible and provide feedback.
+- **Maintainability:** Code is modular, well-commented, and easy to extend.
 
 ---
 
