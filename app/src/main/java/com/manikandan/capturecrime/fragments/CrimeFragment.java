@@ -36,6 +36,7 @@ import com.manikandan.capturecrime.data.CrimeEntity;
 import com.manikandan.capturecrime.viewmodel.CrimeDetailViewModel;
 import com.manikandan.capturecrime.R;
 import com.manikandan.capturecrime.utils.ImageUtils;
+import dagger.hilt.android.AndroidEntryPoint;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+/**
+ * Fragment for displaying and editing crime details.
+ * Uses Hilt dependency injection for ViewModel creation.
+ */
+@AndroidEntryPoint
 public class CrimeFragment extends Fragment implements FragmentResultListener {
     // TODO: Improve image handling (camera, cropping, permissions)
     // TODO: Add settings, theming, and authentication entry points

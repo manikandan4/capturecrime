@@ -38,6 +38,13 @@ import com.manikandan.capturecrime.utils.VerticalSpaceItemDecoration;
 import java.util.ArrayList;
 import java.util.List;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+/**
+ * Fragment for displaying the list of crimes.
+ * Uses Hilt dependency injection for ViewModel creation.
+ */
+@AndroidEntryPoint
 public class CrimeListFragment extends Fragment implements RecyclerViewInterface {
     // TODO: Add search and filter functionality for crimes
     // TODO: Add export (CSV/PDF) and notification features

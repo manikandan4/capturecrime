@@ -6,7 +6,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.appbar.MaterialToolbar;
+import dagger.hilt.android.AndroidEntryPoint;
 
+/**
+ * Main activity that hosts all fragments using Navigation Component.
+ * Uses Hilt for dependency injection.
+ */
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

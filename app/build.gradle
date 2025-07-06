@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -32,6 +33,9 @@ android {
 }
 
 dependencies {
+    // Hilt dependencies
+    implementation 'com.google.dagger:hilt-android:2.48'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.48'
 
     implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'com.google.android.material:material:1.12.0'

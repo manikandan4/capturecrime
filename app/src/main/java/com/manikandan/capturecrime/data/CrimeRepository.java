@@ -1,6 +1,5 @@
 package com.manikandan.capturecrime.data;
 
-import android.content.Context;
 import android.text.TextUtils;
 
 import androidx.lifecycle.LiveData;
@@ -12,14 +11,26 @@ import java.util.UUID;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+/**
+ * Repository class that handles data operations for Crime entities.
+ * Uses Hilt dependency injection for better testability and separation of concerns.
+ */
+@Singleton
 public class CrimeRepository {
     // TODO: Add unit tests for repository data operations and threading
     private final CrimeDao crimeDao;
     private final Executor executor = Executors.newSingleThreadExecutor();
 
-    public CrimeRepository(Context context) {
-        AppDatabase db = AppDatabase.getInstance(context);
-        crimeDao = db.crimeDao();
+    /**
+     * Constructor with Hilt dependency injection.
+     * The CrimeDao is provided by the DatabaseModule.
+     */
+    @Inject
+    public CrimeRepository(CrimeDao crimeDao) {
+        this.crimeDao = crimeDao;
     }
 
     public LiveData<List<CrimeEntity>> getAllCrimes() {

@@ -53,6 +53,15 @@ The "Crime Tracker" app was originally built as a basic application to:
    - Added TODOs for test coverage and future enhancements
 
 ## Recent Refactoring & Improvements (July 2025)
+- **Dependency Injection Architecture (Hilt):**
+  - Successfully implemented Hilt dependency injection throughout the application for better architecture and testability.
+  - Created custom Application class (`CrimeTrackerApplication`) with `@HiltAndroidApp` annotation.
+  - Built comprehensive Hilt modules (`DatabaseModule`) to provide database and DAO dependencies as singletons.
+  - Updated Repository pattern with `@Inject` constructor and `@Singleton` scope for optimal dependency management.
+  - Migrated ViewModels from AndroidViewModel to ViewModel with `@HiltViewModel` annotation for cleaner architecture.
+  - Added `@AndroidEntryPoint` annotations to MainActivity and all Fragments to enable Hilt dependency injection.
+  - Eliminated manual dependency creation - all components now use constructor injection for better testability.
+  - Improved separation of concerns with proper dependency inversion and single responsibility principles.
 - **Form Validation & Data Handling:**
   - Fixed critical form stability issues where fields would lose data when interacting with other form elements.
   - Implemented robust field validation with mandatory field checks (title and crime type required).
@@ -91,7 +100,6 @@ The "Crime Tracker" app was originally built as a basic application to:
   - Polish UI/UX (animations, accessibility, error states, edge cases).
   - Add more user feedback (snackbars, error messages, loading indicators).
 - **Optional Enhancements:**
-  - Add Dependency Injection (e.g., Hilt).
   - Add advanced features (search, filter, export, notifications).
   - Improve image handling (camera capture, cropping, permissions, cleanup of unused images).
   - Add settings, theming, or authentication.
@@ -116,11 +124,13 @@ app/
   │   │   ├── java/com/manikandan/capturecrime/
   │   │   │   ├── Adapters/           # RecyclerView adapters
   │   │   │   ├── data/               # Room DB, DAO, Entity, Repository, TypeConverters
+  │   │   │   ├── di/                 # Hilt dependency injection modules
   │   │   │   ├── fragments/          # All UI screens as Fragments
   │   │   │   ├── interfaces/         # RecyclerView and other interfaces
   │   │   │   ├── utils/              # Utility classes (image, spacing, etc.)
   │   │   │   ├── viewholders/        # ViewHolder classes for RecyclerView
-  │   │   │   └── viewmodel/          # ViewModel classes
+  │   │   │   ├── viewmodel/          # ViewModel classes
+  │   │   │   └── CrimeTrackerApplication.java  # Hilt Application class
   │   │   ├── res/
   │   │   │   ├── layout/             # XML layouts for fragments, list items, splash, etc.
   │   │   │   ├── drawable/           # Vector and shape drawables, icons, backgrounds
@@ -137,10 +147,11 @@ documentation/
 
 ## Key Design Principles
 - **Material 3:** All UI follows Material 3 guidelines for color, typography, elevation, and spacing.
+- **Dependency Injection:** Uses Hilt for clean architecture, better testability, and proper separation of concerns.
 - **Persistence:** All user data (including images) is stored in a way that survives app restarts and redeploys.
-- **Separation of Concerns:** Data, UI, and business logic are cleanly separated.
+- **Separation of Concerns:** Data, UI, and business logic are cleanly separated with proper dependency injection.
 - **Accessibility:** All screens and actions are accessible and provide feedback.
-- **Maintainability:** Code is modular, well-commented, and easy to extend.
+- **Maintainability:** Code is modular, well-commented, and easy to extend with proper DI architecture.
 
 ---
 

@@ -1,25 +1,34 @@
 package com.manikandan.capturecrime.viewmodel;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.manikandan.capturecrime.data.CrimeEntity;
 import com.manikandan.capturecrime.data.CrimeRepository;
 
 import java.util.List;
-import java.util.UUID;
 
-public class CrimeListViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+/**
+ * ViewModel for handling crime list operations.
+ * Uses Hilt dependency injection for better testability and separation of concerns.
+ */
+@HiltViewModel
+public class CrimeListViewModel extends ViewModel {
     // TODO: Add unit tests for ViewModel logic and LiveData transformations
     private final CrimeRepository repository;
     private final LiveData<List<CrimeEntity>> allCrimes;
 
-    public CrimeListViewModel(@NonNull Application application) {
-        super(application);
-        repository = new CrimeRepository(application);
+    /**
+     * Constructor with Hilt dependency injection.
+     * The CrimeRepository is provided by Hilt automatically.
+     */
+    @Inject
+    public CrimeListViewModel(CrimeRepository repository) {
+        this.repository = repository;
         allCrimes = repository.getAllCrimes();
     }
 
@@ -37,9 +46,5 @@ public class CrimeListViewModel extends AndroidViewModel {
 
     public void update(CrimeEntity crime) {
         repository.updateCrime(crime);
-    }
-
-    public LiveData<CrimeEntity> getCrimeById(UUID id) {
-        return repository.getCrimeById(id);
     }
 }
