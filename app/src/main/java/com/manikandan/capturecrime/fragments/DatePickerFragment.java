@@ -18,6 +18,24 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * DatePickerFragment provides a dialog for selecting a date.
+ *
+ * Business/Logical Flow:
+ * - Used for picking the date of a crime, supporting accurate record keeping and editing.
+ * - Integrates with CrimeFragment to update the crime's date field.
+ *
+ * Technical Aspects:
+ * - Extends DialogFragment for modular, reusable date selection UI.
+ * - Uses Android's DatePicker widget for user-friendly date input.
+ * - Communicates the selected date back to the calling fragment via FragmentResult API.
+ * - Arguments allow flexible initialization for different use cases (e.g., editing vs. creating).
+ *
+ * Why is this needed?
+ * - Centralizes date selection logic, improving code reuse and maintainability.
+ * - Ensures consistent date input and validation across the app.
+ */
+
 public class DatePickerFragment extends DialogFragment implements DialogInterface.OnClickListener, DatePicker.OnDateChangedListener {
     private static final String ARG_DATE = "DATE";
     private static final String ARG_REQUEST_CODE = "requestCode";
@@ -27,7 +45,7 @@ public class DatePickerFragment extends DialogFragment implements DialogInterfac
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View dateView = LayoutInflater.from(getActivity())
+        View dateView = getLayoutInflater()
                 .inflate(R.layout.date_picker, null);
         datePicker = dateView.findViewById(R.id.date_picker);
 

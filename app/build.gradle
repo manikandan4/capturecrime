@@ -33,26 +33,43 @@ android {
 }
 
 dependencies {
-    // Hilt dependencies
-    implementation 'com.google.dagger:hilt-android:2.48'
-    annotationProcessor 'com.google.dagger:hilt-compiler:2.48'
+    // Hilt: Dependency injection framework for easier DI in Android
+    implementation 'com.google.dagger:hilt-android:2.51' // Provides Hilt core features
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.51' // Generates Hilt code at compile time
 
-    implementation 'androidx.appcompat:appcompat:1.7.0'
+    // AndroidX AppCompat: Backward compatibility for newer Android features
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    // Material Components: Google's Material Design UI components
     implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    // ConstraintLayout: Flexible layout manager for complex layouts
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    // RecyclerView: Efficient list/grid UI component
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.8.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.8.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime:2.8.0'
-    implementation 'androidx.navigation:navigation-fragment:2.8.0'
-    implementation 'androidx.navigation:navigation-ui:2.8.0'
-    implementation 'androidx.room:room-runtime:2.6.1'
-    annotationProcessor 'androidx.room:room-compiler:2.6.1'
-    implementation 'com.tbuonomo:dotsindicator:4.2'
-    implementation 'com.airbnb.android:lottie:6.4.0'
+
+    // Lifecycle: Manage UI-related data in a lifecycle-conscious way
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.9.2' // ViewModel support
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.9.2' // LiveData support
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.9.2' // Core lifecycle runtime
+
+    // Navigation: Framework for in-app navigation
+    implementation 'androidx.navigation:navigation-fragment:2.9.2' // Navigation for fragments
+    implementation 'androidx.navigation:navigation-ui:2.9.2' // Navigation UI helpers
+
+    // Room: SQLite database abstraction for local data storage
+    implementation 'androidx.room:room-runtime:2.7.2' // Room runtime
+    annotationProcessor 'androidx.room:room-compiler:2.7.2' // Generates Room code at compile time
+
+    // DotsIndicator: UI indicator for ViewPager pages
+    implementation 'com.tbuonomo:dotsindicator:5.1.0'
+    // Lottie: Render After Effects animations in Android
+    implementation 'com.airbnb.android:lottie:6.6.7'
+    // Glide: Efficient image loading and caching
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
+    // JUnit: Unit testing framework
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // AndroidX Test: Android-specific testing support
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 }

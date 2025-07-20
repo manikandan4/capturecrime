@@ -45,8 +45,25 @@ import java.util.Locale;
 import java.util.UUID;
 
 /**
- * Fragment for displaying and editing crime details.
- * Uses Hilt dependency injection for ViewModel creation.
+ * CrimeFragment displays and edits details for a single crime record.
+ *
+ * Business/Logical Flow:
+ * - Allows users to view, update, and delete crime details, including title, location, suspect, type, date, and photo.
+ * - Supports both creating new crimes and editing existing ones, with validation for required fields.
+ * - Integrates image attachment for evidence, and provides feedback via Snackbar for user actions.
+ *
+ * Technical Aspects:
+ * - Uses ViewModel (CrimeDetailViewModel) for data persistence and LiveData for reactive UI updates.
+ * - Employs Hilt for dependency injection, ensuring modular and testable code.
+ * - Utilizes Material Components for modern UI (date picker, switches, buttons).
+ * - ActivityResultLauncher and ImageUtils handle image selection and storage securely.
+ * - NavHostFragment manages navigation, allowing seamless transitions back to the list or other fragments.
+ * - OnBackPressedCallback ensures unsaved changes are handled correctly when navigating away.
+ *
+ * Why is this needed?
+ * - Centralizes all logic for crime detail management, supporting the app's core workflow.
+ * - Ensures robust user experience with validation, error handling, and accessibility.
+ * - Integrates with the app's navigation and data architecture for maintainability and scalability.
  */
 @AndroidEntryPoint
 public class CrimeFragment extends Fragment implements FragmentResultListener {

@@ -41,8 +41,24 @@ import java.util.List;
 import dagger.hilt.android.AndroidEntryPoint;
 
 /**
- * Fragment for displaying the list of crimes.
- * Uses Hilt dependency injection for ViewModel creation.
+ * CrimeListFragment displays the list of all crimes in the app.
+ *
+ * Business/Logical Flow:
+ * - Central hub for users to view, add, delete, and share crime records.
+ * - Supports swipe-to-delete with undo, and navigation to crime details for editing/viewing.
+ * - FloatingActionButton allows users to add new crimes, supporting the main workflow.
+ *
+ * Technical Aspects:
+ * - Uses RecyclerView for efficient, scrollable list display.
+ * - CrimeAdapter binds data to views and handles click events via RecyclerViewInterface.
+ * - ViewModel (CrimeListViewModel) provides data and handles database operations using LiveData for reactive UI updates.
+ * - Navigation Component (NavHostFragment) is used to navigate to CrimeFragment for details/editing.
+ * - MenuProvider and ShareActionProvider enable sharing the crime list and adding new crimes from the menu.
+ * - ItemTouchHelper enables swipe-to-delete with undo functionality.
+ *
+ * Why is this needed?
+ * - Provides the main interface for users to interact with crime data.
+ * - Ensures robust, user-friendly management of crime records with modern Android architecture components.
  */
 @AndroidEntryPoint
 public class CrimeListFragment extends Fragment implements RecyclerViewInterface {
