@@ -42,12 +42,10 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 /**
  * CrimeListFragment displays the list of all crimes in the app.
- *
  * Business/Logical Flow:
  * - Central hub for users to view, add, delete, and share crime records.
  * - Supports swipe-to-delete with undo, and navigation to crime details for editing/viewing.
  * - FloatingActionButton allows users to add new crimes, supporting the main workflow.
- *
  * Technical Aspects:
  * - Uses RecyclerView for efficient, scrollable list display.
  * - CrimeAdapter binds data to views and handles click events via RecyclerViewInterface.
@@ -55,7 +53,6 @@ import dagger.hilt.android.AndroidEntryPoint;
  * - Navigation Component (NavHostFragment) is used to navigate to CrimeFragment for details/editing.
  * - MenuProvider and ShareActionProvider enable sharing the crime list and adding new crimes from the menu.
  * - ItemTouchHelper enables swipe-to-delete with undo functionality.
- *
  * Why is this needed?
  * - Provides the main interface for users to interact with crime data.
  * - Ensures robust, user-friendly management of crime records with modern Android architecture components.
@@ -73,6 +70,24 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
     private CrimeEntity recentlyDeletedCrime;
     private int recentlyDeletedPosition;
 
+    /**
+     * Inflates the layout for this fragment, initializes the RecyclerView, and sets up UI components.*
+     * This method is called when the fragment's view is first created. It performs the following key tasks:
+     * - Inflates the `fragment_crime_list` layout.
+     * - Sets up the {@link RecyclerView} with a {@link LinearLayoutManager} and a {@link CrimeAdapter}.
+     * - Adds vertical spacing between RecyclerView items using a custom {@link VerticalSpaceItemDecoration}.
+     * - Initializes the {@link FloatingActionButton} for adding new crimes.
+     * - Sets up a {@link SnapHelper} for a smoother scrolling experience in the RecyclerView.
+     * - Attaches an {@link ItemTouchHelper} to handle swipe-to-delete gestures.
+     * - Initializes the {@link CrimeListViewModel} and observes the list of crimes using {@link androidx.lifecycle.LiveData}.
+     *   When the data changes, the adapter is updated.
+     * - Sets up the menu using {@link MenuProvider}, including a {@link ShareActionProvider}.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be attached to.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous saved state.
+     * @return The View for the fragment's UI, or null.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -129,6 +144,13 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         return view;
     }
 
+    /**
+     * Creates a new crime, inserts it into the database, and navigates to the detail screen.
+     * This method generates a new {@link CrimeEntity} with a unique ID and default values.
+     * It uses the {@link CrimeListViewModel} to persist the new crime and then navigates
+     * to the {@link CrimeFragment} to allow the user to edit the details.
+     * A {@link Snackbar} provides feedback to the user upon successful creation.
+     */
     private void createNewCrime() {
         try {
             CrimeEntity crime = new CrimeEntity(java.util.UUID.randomUUID(), "", new java.util.Date(), false, "", "", "", "");
@@ -143,6 +165,14 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         }
     }
 
+    /**
+     * Sets up swipe-to-delete functionality for the RecyclerView.
+     * This method uses {@link ItemTouchHelper.SimpleCallback} to detect left or right swipes on a RecyclerView item.
+     * When an item is swiped, the corresponding crime is marked for deletion, removed from the list,
+     * and a Snackbar with an "UNDO" action is displayed.
+     *
+     * @param recyclerView The RecyclerView to attach the swipe handler to.
+     */
     private void handleItemSwipe(RecyclerView recyclerView) {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -164,12 +194,23 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    /**
+     * Displays a Snackbar with an "UNDO" action to revert a deletion.
+     * This provides a short window for the user to undo the delete operation, improving user experience.
+     *
+     * @param anchor The view to which the Snackbar will be anchored.
+     */
     private void showUndoSnackbar(View anchor) {
         undoSnackbar = Snackbar.make(anchor, "Crime deleted", Snackbar.LENGTH_LONG)
                 .setAction("UNDO", v -> undoDelete());
         undoSnackbar.show();
     }
 
+    /**
+     * Reverts the deletion of a crime.
+     * This method re-inserts the {@code recentlyDeletedCrime} into the database and adds it back to the
+     * RecyclerView at its original position. It is triggered by the "UNDO" action in the Snackbar.
+     */
     private void undoDelete() {
         if (recentlyDeletedCrime != null) {
             viewModel.insert(recentlyDeletedCrime);
@@ -179,6 +220,13 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         }
     }
 
+    /**
+     * Handles click events on RecyclerView items.
+     * This method is called when a user taps on a crime in the list. It navigates to the
+     * {@link CrimeFragment} for the selected crime, passing the crime's ID in the arguments.
+     *
+     * @param position The position of the clicked item in the RecyclerView.
+     */
     @Override
     public void onItemClick(int position) {
         Snackbar.make(requireView(), crimeList.get(position).title, Snackbar.LENGTH_LONG).show();
@@ -188,6 +236,13 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         navController.navigate(R.id.action_crimeListFragment_to_crimeDetailFragment, args);
     }
 
+    /**
+     * Sets the share intent for the {@link ShareActionProvider}.
+     * This method creates an {@link Intent#ACTION_SEND} intent with the crime list details
+     * as plain text, allowing the user to share the list with other apps.
+     *
+     * @param text The text content to be shared.
+     */
     private void setShareActionIntent(String text) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -195,6 +250,13 @@ public class CrimeListFragment extends Fragment implements RecyclerViewInterface
         shareActionProvider.setShareIntent(intent);
     }
 
+    /**
+     * Generates a string summary of the crime list for sharing.
+     * This method iterates through the list of crimes and concatenates their titles
+     * into a single string, which can be shared via the {@link ShareActionProvider}.
+     *
+     * @return A string containing the details of all crimes in the list.
+     */
     private String getCrimeListDetails() {
         StringBuilder crimeDetails = new StringBuilder("Crime List : ");
         for (CrimeEntity crime : crimeList) {
